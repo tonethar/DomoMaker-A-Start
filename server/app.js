@@ -45,6 +45,13 @@ let redisClient = redis.createClient({
 	password: redisPASS,
 });
 
+if(process.env.REDISCLOUD_URL){
+	const redisURL = url.parse(process.env.REDISCLOUD_URL);;
+	const pass = redisURL.auth.split(":")[0];
+	redisClient.host = redisURL;
+	redisClient.password = pass;
+}
+
 const router = require('./router.js');
 
 
@@ -77,7 +84,7 @@ app.use(cookieParser());
 // needs to come after cookieParser() and session()
 app.use(csrf());
 app.use((err,req,res,next) => {
-	if (err.code != 'EBADCSRFTOKEN') return next(err);
+	if (err.code !== 'EBADCSRFTOKEN') return next(err);
 	console.log('Missing CSRF token');
 	return false;
 });
