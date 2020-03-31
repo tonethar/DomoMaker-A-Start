@@ -45,12 +45,14 @@ let redisClient = redis.createClient({
 	password: redisPASS,
 });
 
+/*
 if(process.env.REDISCLOUD_URL){
 	const redisURL = url.parse(process.env.REDISCLOUD_URL);;
 	const pass = redisURL.auth.split(":")[0];
 	redisClient.host = redisURL;
 	redisClient.password = pass;
 }
+*/
 
 const router = require('./router.js');
 
